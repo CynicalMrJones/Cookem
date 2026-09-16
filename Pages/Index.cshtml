@@ -1,0 +1,25 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@functions{
+    public string GetHello(){
+        return "Hello";
+    }
+}
+
+@section Scripts{
+    <script>
+        function TestFun(){
+            $("button").html('@GetHello()')
+        }
+    </script>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Cooking Time</h1>
+    <p>This is a beta cooking app for my gf</p>
+    <img href=>
+</div>
