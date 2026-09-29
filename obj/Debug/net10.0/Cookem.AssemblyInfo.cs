@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Cookem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdf94d9fcbe560ddbec03670d31d1c0d95a9cdbc")]
 [assembly: System.Reflection.AssemblyProductAttribute("Cookem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Cookem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

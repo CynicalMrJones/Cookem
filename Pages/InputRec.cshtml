@@ -1,0 +1,25 @@
+@page
+@model InputModel
+
+
+<div class="text-center">
+    <form method="post">
+        <p>This is a test page</p>
+
+        <!-- Let them add a name -->
+        <label asp-for="Name">Name:</label>
+        <input asp-for="Name">
+
+        <!-- Let them add a Instructions -->
+        <label asp-for="Instructions">Instructions:</label>
+        <input asp-for="Instructions">
+
+        <div>
+            <!-- TODO: Check if null -->
+            <input type="submit" value="submit" class="submit" onclick="@Model.Add(@Model.Name, @Model.Instructions)">
+            <label>@Model.Ans</label>
+
+        </div>
+        <!-- <textarea class="textarea1" disabled></textarea> -->
+    </form>
+</div>

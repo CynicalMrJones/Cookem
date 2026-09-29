@@ -13,6 +13,10 @@ public class Sql{
         string connect = $"Data Source={db};Version=3;";
         connection = new SQLiteConnection(connect);
         connection.Open();
+        if (connection.Equals(null)){
+            Console.WriteLine("Failed to Connect to Database");
+            return;
+        }
         Console.WriteLine("Connected To DataBase");
         isConnected = true;
     }
@@ -24,6 +28,41 @@ public class Sql{
         else{
             return true;
         }
+    }
+
+    //TODO: Add string stripping (get rid of unwanted characters)
+    public string Insert_Rec(string name, string instruction){
+        using var command = new SQLiteCommand(connection);
+        //Check to see if name is already in db
+        command.CommandText = "SELECT count(*) FROM recipe WHERE name=@name";
+        command.Parameters.AddWithValue("@name", name.ToLower());
+        int count = Convert.ToInt32(command.ExecuteScalar());
+        if (count == 0){
+            command.CommandText = "Insert INTO recipe VALUES(@id, @name, @instruction)";
+            command.Parameters.AddWithValue("@id", 2);
+            command.Parameters.AddWithValue("@name", name.ToLower());
+            command.Parameters.AddWithValue("@instruction", instruction);
+            command.Prepare();
+            command.ExecuteNonQuery();
+            return "Entry added Successfully";
+        }
+        else{
+            return "Entry already found in database";
+        }
+    }
+
+    public List<string> GetRec(){
+        List<string> ret = new List<string>();
+        using var command = new SQLiteCommand(connection);
+        command.CommandText = "SELECT * FROM recipe";
+        using var reader = command.ExecuteReader();
+        while(reader.Read()){
+            ret.Add(reader.GetString(1));
+        }
+        foreach(var meme in ret){
+            Console.WriteLine(meme);
+        }
+        return ret;
     }
 
     //Prints out the whole database (all Tables)

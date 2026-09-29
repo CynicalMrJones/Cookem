@@ -18,6 +18,9 @@ public class TestModel : PageModel
     [BindProperty]
     public int Ans{ get; set; }
 
+    [BindProperty]
+    public string? Recipe{ get; set; }
+
     public bool IsPost { get; set; }
 
     public int Simple_Add(int num1, int num2){
@@ -27,12 +30,16 @@ public class TestModel : PageModel
 
     public void OnGet()
     {
-        //TODO: Figure out why no work
         Console.WriteLine(meme.IsConnected());
         IsPost = true;
         if (meme.IsConnected() == false) {
             meme.connect("test.db");
         }
-        meme.PrintTables();
+        List<string> rec_list = meme.GetRec();
+        string ans = ""; 
+        foreach(var ent in rec_list){
+            ans += ent + "\n ";
+        }
+        Recipe = ans;
     }
 }
