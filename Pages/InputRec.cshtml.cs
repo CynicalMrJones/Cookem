@@ -12,6 +12,9 @@ public class InputModel : PageModel
     public Sql meme = new Sql();
 
     [BindProperty]
+    public string? Name_ingredient{ get; set; }
+
+    [BindProperty]
     public string? Name{ get; set; }
 
     [BindProperty]
@@ -22,7 +25,7 @@ public class InputModel : PageModel
 
     public bool IsPost { get; set; }
 
-    public string Add(string name, string instructions){
+    public string AddRecipe(string name, string instructions){
         meme.connect("test.db");
         if (string.IsNullOrEmpty(name)){
             Ans = "Name is empty";
@@ -33,6 +36,17 @@ public class InputModel : PageModel
             return "Instructions is empty";
         }
         Ans = meme.Insert_Rec(name, instructions);
+        return Ans;
+    }
+
+    //TODO: IMPLEMENT
+    public string AddIngredient(string name){
+        meme.connect("test.db");
+        if (string.IsNullOrEmpty(name)){
+            Ans = "Name is empty";
+            return "Name is empty";
+        }
+        Ans = meme.InsertIngredient(name);
         return Ans;
     }
 

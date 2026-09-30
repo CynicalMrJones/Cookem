@@ -39,9 +39,29 @@ public class Sql{
         int count = Convert.ToInt32(command.ExecuteScalar());
         if (count == 0){
             command.CommandText = "Insert INTO recipe VALUES(@id, @name, @instruction)";
-            command.Parameters.AddWithValue("@id", 2);
+            command.Parameters.AddWithValue("@id", null);
             command.Parameters.AddWithValue("@name", name.ToLower());
             command.Parameters.AddWithValue("@instruction", instruction);
+            command.Prepare();
+            command.ExecuteNonQuery();
+            return "Entry added Successfully";
+        }
+        else{
+            return "Entry already found in database";
+        }
+    }
+
+    //TODO: Add string stripping (get rid of unwanted characters)
+    public string InsertIngredient(string name){
+        using var command = new SQLiteCommand(connection);
+        //Check to see if name is already in db
+        command.CommandText = "SELECT count(*) FROM ingredients WHERE name=@name";
+        command.Parameters.AddWithValue("@name", name.ToLower());
+        int count = Convert.ToInt32(command.ExecuteScalar());
+        if (count == 0){
+            command.CommandText = "Insert INTO ingredients VALUES(@id, @name)";
+            command.Parameters.AddWithValue("@id", null);
+            command.Parameters.AddWithValue("@name", name.ToLower());
             command.Prepare();
             command.ExecuteNonQuery();
             return "Entry added Successfully";
