@@ -13,23 +13,17 @@
             <!-- Let them add a Instructions -->
             <label asp-for="Instructions">Instructions:</label>
             <input asp-for="Instructions">
+
+            <!-- Ingredient list seperated by commas -->
+            <label asp-for="Ingredients">Ingredients:</label>
+            <input asp-for="Ingredients">
         </div>
 
         <div>
-            <input type="submit" value="submit" class="submit" onclick="@Model.AddRecipe(@Model.Name, @Model.Instructions)">
+            <input type="submit" value="submit" class="submit" onclick="@Model.AddRecipe(@Model.Name, @Model.Instructions, @Model.Ingredients)">
             <label>@Model.Ans</label>
 
         </div>
-
-        <div>
-            <p>Add an ingredient</p>
-            <!-- Let them add a name -->
-            <label asp-for="Name_ingredient">Name:</label>
-            <input asp-for="Name_ingredient">
-
-        </div>
-            <input type="submit" value="submit" class="submit" onclick="@Model.AddIngredient(@Model.Name_ingredient)">
-            <label>@Model.Ans</label>
 
         <!-- <textarea class="textarea1" disabled></textarea> -->
     </form>

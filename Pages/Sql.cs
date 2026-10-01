@@ -30,44 +30,58 @@ public class Sql{
         }
     }
 
-    //TODO: Add string stripping (get rid of unwanted characters)
-    public string Insert_Rec(string name, string instruction){
+    public int InsertRecipe(string name, string instruction){
         using var command = new SQLiteCommand(connection);
-        //Check to see if name is already in db
+        //Check to see if name is already in recipe db
         command.CommandText = "SELECT count(*) FROM recipe WHERE name=@name";
         command.Parameters.AddWithValue("@name", name.ToLower());
         int count = Convert.ToInt32(command.ExecuteScalar());
+
         if (count == 0){
-            command.CommandText = "Insert INTO recipe VALUES(@id, @name, @instruction)";
+            command.CommandText = @"Insert INTO recipe VALUES(@id, @name, @instruction); SELECT last_insert_rowid();";
             command.Parameters.AddWithValue("@id", null);
             command.Parameters.AddWithValue("@name", name.ToLower());
             command.Parameters.AddWithValue("@instruction", instruction);
             command.Prepare();
-            command.ExecuteNonQuery();
-            return "Entry added Successfully";
+            int recipeId = Convert.ToInt32(command.ExecuteScalar());
+            return recipeId;
         }
         else{
-            return "Entry already found in database";
+            return 0;
         }
     }
 
-    //TODO: Add string stripping (get rid of unwanted characters)
-    public string InsertIngredient(string name){
+    public int InsertIngredient(string name){
         using var command = new SQLiteCommand(connection);
         //Check to see if name is already in db
         command.CommandText = "SELECT count(*) FROM ingredients WHERE name=@name";
         command.Parameters.AddWithValue("@name", name.ToLower());
         int count = Convert.ToInt32(command.ExecuteScalar());
         if (count == 0){
-            command.CommandText = "Insert INTO ingredients VALUES(@id, @name)";
+            command.CommandText = @"Insert INTO ingredients VALUES(@id, @name); SELECT last_insert_rowid();";
             command.Parameters.AddWithValue("@id", null);
             command.Parameters.AddWithValue("@name", name.ToLower());
             command.Prepare();
-            command.ExecuteNonQuery();
-            return "Entry added Successfully";
+            int ingredientId = Convert.ToInt32(command.ExecuteScalar());
+            return ingredientId;
         }
         else{
-            return "Entry already found in database";
+            command.CommandText = "SELECT id FROM ingredients WHERE name = @name";
+            command.Parameters.AddWithValue("@name", name.ToLower());
+            command.Prepare();
+            int ingredientId = Convert.ToInt32(command.ExecuteScalar());
+            return ingredientId;
+        }
+    }
+
+    public void InsertRecipeIngredient(int recipeId, List<int> ingredientIds){
+        using var command = new SQLiteCommand(connection);
+        foreach(var ent in ingredientIds){
+            command.CommandText = "INSERT INTO recipe_ingredients VALUES(@recipeId, @ingredientId)";
+            command.Parameters.AddWithValue("@recipeId", recipeId);
+            command.Parameters.AddWithValue("@ingredientId", ent);
+            command.Prepare();
+            command.ExecuteNonQuery();
         }
     }
 
