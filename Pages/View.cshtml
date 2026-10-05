@@ -10,13 +10,10 @@
             <!-- Let them add a name -->
             <form target="_blank" method="get">
                 <p>Select recipe</p>
-                <select asp-for-"Elements" asp-items="@(new SelectList(Model.RecipeList, nameof(recipe)" multiple>
-                    @Html.Raw(@Model.Options)
-                </select> 
-                <input type="submit" value="Submit" onclick="onclick="@Model.GetRecipe()">
+                <select asp-items="@Model.Recipes">
+                    <option>Please Pick</option>
+                </select>
             </form>
         </div>
-
-        <textarea class="textarea1" disabled>@Model.Text</textarea>
     </form>
 </div>

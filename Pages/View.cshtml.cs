@@ -1,5 +1,5 @@
 
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -15,20 +15,21 @@ public class ViewModel : PageModel
 
     public bool IsPost { get; set; }
 
-    private string GetOptions(){
+    public List<SelectListItem>? Recipes { set; get;}
+
+    private List<SelectListItem> GetOptions(){
         meme.connect("test.db");
         List<string> strs = meme.GetRecipeNames();
-        string ret = "";
-        foreach(var ent in strs){
-            string option = String.Format(@"<option>{0}</option>", ent);
-            ret += option;
-        }
-        return ret;
+
+        return strs.Select(x => new SelectListItem {
+                Text = x,
+                Value = x
+        }).ToList();
     }
 
     public void OnGet()
     {
         IsPost = true;
-        this.Options = GetOptions();
+        this.Recipes= GetOptions();
     }
 }
