@@ -85,16 +85,13 @@ public class Sql{
         }
     }
 
-    public List<string> GetRec(){
+    public List<string> GetRecipeNames(){
         List<string> ret = new List<string>();
         using var command = new SQLiteCommand(connection);
-        command.CommandText = "SELECT * FROM recipe";
+        command.CommandText = "SELECT name FROM recipe";
         using var reader = command.ExecuteReader();
         while(reader.Read()){
-            ret.Add(reader.GetString(1));
-        }
-        foreach(var meme in ret){
-            Console.WriteLine(meme);
+            ret.Add(reader.GetString(0));
         }
         return ret;
     }
