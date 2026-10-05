@@ -10,9 +10,13 @@
             <!-- Let them add a name -->
             <form target="_blank" method="get">
                 <p>Select recipe</p>
-                <select asp-items="@Model.Recipes">
-                    <option>Please Pick</option>
-                </select>
+                <form method="post">
+                    <select asp-for="Ans" asp-items="@Model.Recipes">
+                        <option>Please Pick</option>
+                    </select>
+                </form>
+                <input type="submit" value="submit" class="submit" onclick="@Model.GetText(@Model.Ans)">
+                <textarea class="textarea1">@Model.Text</textarea>
             </form>
         </div>
     </form>

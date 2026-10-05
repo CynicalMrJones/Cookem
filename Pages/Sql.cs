@@ -85,6 +85,7 @@ public class Sql{
         }
     }
 
+    //Returns the names of the recipes
     public List<string> GetRecipeNames(){
         List<string> ret = new List<string>();
         using var command = new SQLiteCommand(connection);
@@ -94,6 +95,20 @@ public class Sql{
             ret.Add(reader.GetString(0));
         }
         return ret;
+    }
+
+    //For getting the ingredients and instructions for a given recipe
+    public string GetRecipeInstructionsIngredients(string recipe_name){
+        using var command = new SQLiteCommand(connection);
+        string ans = "";
+        command.CommandText = "SELECT instructions FROM recipe WHERE name = @name";
+        command.Parameters.AddWithValue("@name", recipe_name);
+        command.Prepare();
+        using var reader = command.ExecuteReader();
+        while(reader.Read()){
+            ans = reader.GetString(0);
+        }
+        return ans;
     }
 
     //Prints out the whole database (all Tables)

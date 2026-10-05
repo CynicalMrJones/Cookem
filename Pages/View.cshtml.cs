@@ -13,6 +13,12 @@ public class ViewModel : PageModel
     [BindProperty]
     public string? Options { get; set; }
 
+    [BindProperty]
+    public string? Ans{ get; set; }
+
+    [BindProperty]
+    public string? Text{ get; set; }
+
     public bool IsPost { get; set; }
 
     public List<SelectListItem>? Recipes { set; get;}
@@ -27,9 +33,20 @@ public class ViewModel : PageModel
         }).ToList();
     }
 
+    public string GetText(string name){
+        meme.connect("test.db");
+        string ret = meme.GetRecipeInstructionsIngredients(name);
+        return ret;
+    }
+
     public void OnGet()
     {
         IsPost = true;
         this.Recipes= GetOptions();
+    }
+
+    public void OnPost()
+    {
+        Text = GetText(Ans);
     }
 }
