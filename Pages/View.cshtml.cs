@@ -19,6 +19,9 @@ public class ViewModel : PageModel
     [BindProperty]
     public string? Text{ get; set; }
 
+    [BindProperty]
+    public string? IngredientsText{ get; set; }
+
     public bool IsPost { get; set; }
 
     public List<SelectListItem>? Recipes { set; get;}
@@ -33,14 +36,26 @@ public class ViewModel : PageModel
         }).ToList();
     }
 
+    public string GetIngredientsText(string recipe_name){
+        meme.connect("test.db");
+        List<string> list = meme.GetRecipeIngredients(recipe_name);
+        string ret = "";
+        foreach(var ent in list){
+            ret += ent + "\n";
+        }
+        return ret;
+    }
+
+
     public string GetText(string name){
         meme.connect("test.db");
-        string ret = meme.GetRecipeInstructionsIngredients(name);
+        string ret = meme.GetRecipeInstructions(name);
         return ret;
     }
 
     public void OnGet()
     {
+        meme.connect("test.db");
         IsPost = true;
         this.Recipes= GetOptions();
     }
@@ -48,6 +63,7 @@ public class ViewModel : PageModel
     public void OnPost()
     {
         Text = GetText(Ans);
+        IngredientsText = GetIngredientsText(Ans);
         this.Recipes = GetOptions();
     }
 }
