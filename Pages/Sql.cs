@@ -98,7 +98,7 @@ public class Sql{
     }
 
     //For getting the ingredients and instructions for a given recipe
-    public string GetRecipeInstructionsIngredients(string recipe_name){
+    public string GetRecipeInstructions(string recipe_name){
         using var command = new SQLiteCommand(connection);
         string ans = "";
         command.CommandText = "SELECT instructions FROM recipe WHERE name = @name";
@@ -107,6 +107,26 @@ public class Sql{
         using var reader = command.ExecuteReader();
         while(reader.Read()){
             ans = reader.GetString(0);
+        }
+        return ans;
+    }
+
+    //Gets all ingredient names based on recipe name
+    public List<string> GetRecipeIngredients(string recipe_name){
+        using var command = new SQLiteCommand(connection);
+        List<string> ans = [];
+        command.CommandText = @"SELECT i.name
+                                FROM ingredients i
+                                JOIN recipe_ingredients ri
+                                    ON i.id = ri.ingredient_id
+                                JOIN recipe r
+                                    ON r.id = ri.recipe_id
+                                WHERE r.name = @name";
+        command.Parameters.AddWithValue("@name", recipe_name);
+        command.Prepare();
+        var reader = command.ExecuteReader();
+        while(reader.Read()){
+            ans.Add(reader.GetString(0));
         }
         return ans;
     }
