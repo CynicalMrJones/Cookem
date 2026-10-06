@@ -48,5 +48,6 @@ public class ViewModel : PageModel
     public void OnPost()
     {
         Text = GetText(Ans);
+        this.Recipes = GetOptions();
     }
 }
