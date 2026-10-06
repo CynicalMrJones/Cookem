@@ -6,9 +6,8 @@
 <div class="text-center">
     <form method="post">
         <div>
-            <p>View a Recipe</p>
+            <h1>View a Recipe</h1>
             <!-- Let them add a name -->
-            <!-- TODO: Make look better -->
             <form target="_blank" method="get">
                 <p>Select recipe</p>
                 <form method="post">
@@ -16,9 +15,11 @@
                         <option>Please Pick</option>
                     </select>
                 </form>
-                <input type="submit" value="submit" class="submit" onclick="@Model.GetText(@Model.Ans)">
-                <textarea class="textarea1">@Model.Text</textarea>
+                <input type="submit" value="submit" class="submit" onclick="
+                @Model.GetText(@Model.Ans); @Model.GetIngredientsText(@Model.Ans)">
             </form>
         </div>
+        <textarea class="textarea1" disabled>@Model.IngredientsText</textarea>
+        <textarea class="textarea1" readonly disabled>@Model.Text</textarea>
     </form>
 </div>
