@@ -33,4 +33,5 @@ body {
 .textarea1{
     wrap: "hard";
     resize: none;
+    height: 200px;
 }
