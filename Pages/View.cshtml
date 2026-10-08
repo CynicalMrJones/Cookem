@@ -12,7 +12,8 @@
                 <p>Select recipe</p>
                 <div>
                     <input asp-for="Ans" type="text" placeholder="Search..." onclick="
-                @Model.GetText(@Model.Ans); @Model.GetIngredientsText(@Model.Ans)">
+                                                                             @Model.GetText(@Model.Ans);
+                                                                             @Model.GetIngredientsText(@Model.Ans)">
                 </div>
                 <form method="post">
                     <select asp-for="Ans" asp-items="@Model.Recipes">
@@ -20,10 +21,21 @@
                     </select>
                 </form>
                 <input type="submit" value="submit" class="submit" onclick="
-                @Model.GetText(@Model.Ans); @Model.GetIngredientsText(@Model.Ans)">
+                                                                   @Model.GetText(@Model.Ans);
+                                                                   @Model.GetIngredientsText(@Model.Ans)">
             </form>
         </div>
-        <textarea class="textarea1" disabled>@Model.IngredientsText</textarea>
-        <textarea class="textarea1" readonly disabled>@Model.Text</textarea>
+        <div class=IandIArea>
+            <div>
+                <label>Ingredients</label>
+                <br/>
+                <textarea class="ingredientText" disabled>@Model.IngredientsText</textarea>
+            </div>
+            <div>
+                <label>Instructions</label>
+                <br/>
+                <textarea class="instructionText" readonly disabled>@Model.Text</textarea>
+            </div>
+        </div>
     </form>
 </div>
