@@ -30,8 +30,20 @@ body {
   text-align: start;
 }
 
-.textarea1{
+.instructionText{
     wrap: "hard";
     resize: none;
     height: 200px;
+}
+
+.ingredientText{
+    wrap: "hard";
+    resize: none;
+    height: 200px;
+    width: 100px;
+}
+
+.IandIArea{
+    display: flex;
+    justify-content: center;
 }
