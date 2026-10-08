@@ -10,6 +10,10 @@
             <!-- Let them add a name -->
             <form target="_blank" method="get">
                 <p>Select recipe</p>
+                <div>
+                    <input asp-for="Ans" type="text" placeholder="Search..." onclick="
+                @Model.GetText(@Model.Ans); @Model.GetIngredientsText(@Model.Ans)">
+                </div>
                 <form method="post">
                     <select asp-for="Ans" asp-items="@Model.Recipes">
                         <option>Please Pick</option>
