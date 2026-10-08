@@ -27,7 +27,6 @@ public class ViewModel : PageModel
     public List<SelectListItem>? Recipes { set; get;}
 
     private List<SelectListItem> GetOptions(){
-        meme.connect("test.db");
         List<string> strs = meme.GetRecipeNames();
 
         return strs.Select(x => new SelectListItem {
@@ -37,7 +36,6 @@ public class ViewModel : PageModel
     }
 
     public string GetIngredientsText(string recipe_name){
-        meme.connect("test.db");
         List<string> list = meme.GetRecipeIngredients(recipe_name);
         string ret = "";
         foreach(var ent in list){
@@ -48,7 +46,6 @@ public class ViewModel : PageModel
 
 
     public string GetText(string name){
-        meme.connect("test.db");
         string ret = meme.GetRecipeInstructions(name);
         return ret;
     }
@@ -62,6 +59,7 @@ public class ViewModel : PageModel
 
     public void OnPost()
     {
+        meme.connect("test.db");
         Text = GetText(Ans);
         IngredientsText = GetIngredientsText(Ans);
         this.Recipes = GetOptions();
