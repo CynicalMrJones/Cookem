@@ -7,7 +7,7 @@ namespace Cookem.Pages;
 public class InputModel : PageModel
 {
 
-    public Sql meme = new Sql();
+    public Sql database = new Sql();
 
     [BindProperty]
     public string? Name_ingredient{ get; set; }
@@ -33,14 +33,14 @@ public class InputModel : PageModel
         string[] sub = ingredients.Split(",");
         List<int> ingredientIds = new List<int>();
         foreach(var ent in sub){
-            int ingredientId = meme.InsertIngredient(ent.Trim());
+            int ingredientId = database.InsertIngredient(ent.Trim());
             ingredientIds.Add(ingredientId);
         }
         return ingredientIds;
     }
 
     public string AddRecipe(string name, string instructions, string ingredients){
-        meme.connect("test.db");
+        database.connect("test.db");
         if (string.IsNullOrEmpty(name)){
             Ans = "Name is empty";
             return "Name is empty";
@@ -53,14 +53,14 @@ public class InputModel : PageModel
             Ans = "Ingredient is empty";
             return "Ingredient is empty";
         }
-        int recipeId = meme.InsertRecipe(name, instructions);
+        int recipeId = database.InsertRecipe(name, instructions);
         if (recipeId == 0){
             Ans = "Failed to insert recipe";
             return Ans;
         }
         List<int> ingredientIds = ParseAndInsertIngredients(ingredients);
         //Need to add to recipe_ingredient table
-        meme.InsertRecipeIngredient(recipeId, ingredientIds);
+        database.InsertRecipeIngredient(recipeId, ingredientIds);
         Ans = "Inserted into DB";
         return Ans;
     }

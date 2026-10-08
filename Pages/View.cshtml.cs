@@ -8,7 +8,7 @@ namespace Cookem.Pages;
 public class ViewModel : PageModel
 {
 
-    public Sql meme = new Sql();
+    public Sql database = new Sql();
 
     [BindProperty]
     public string? Options { get; set; }
@@ -27,7 +27,7 @@ public class ViewModel : PageModel
     public List<SelectListItem>? Recipes { set; get;}
 
     private List<SelectListItem> GetOptions(){
-        List<string> strs = meme.GetRecipeNames();
+        List<string> strs = database.GetRecipeNames();
 
         return strs.Select(x => new SelectListItem {
                 Text = x,
@@ -36,7 +36,7 @@ public class ViewModel : PageModel
     }
 
     public string GetIngredientsText(string recipe_name){
-        List<string> list = meme.GetRecipeIngredients(recipe_name);
+        List<string> list = database.GetRecipeIngredients(recipe_name);
         string ret = "";
         foreach(var ent in list){
             ret += ent + "\n";
@@ -46,20 +46,20 @@ public class ViewModel : PageModel
 
 
     public string GetText(string name){
-        string ret = meme.GetRecipeInstructions(name);
+        string ret = database.GetRecipeInstructions(name);
         return ret;
     }
 
     public void OnGet()
     {
-        meme.connect("test.db");
+        database.connect("test.db");
         IsPost = true;
         this.Recipes= GetOptions();
     }
 
     public void OnPost()
     {
-        meme.connect("test.db");
+        database.connect("test.db");
         Text = GetText(Ans);
         IngredientsText = GetIngredientsText(Ans);
         this.Recipes = GetOptions();
