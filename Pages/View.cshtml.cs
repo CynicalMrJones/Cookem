@@ -17,6 +17,9 @@ public class ViewModel : PageModel
     public string? Ans{ get; set; }
 
     [BindProperty]
+    public string? Search{ get; set; }
+
+    [BindProperty]
     public string? Text{ get; set; }
 
     [BindProperty]
@@ -24,15 +27,11 @@ public class ViewModel : PageModel
 
     public bool IsPost { get; set; }
 
-    public List<SelectListItem>? Recipes { set; get;}
+    public List<string>? Recipes { set; get;}
 
-    private List<SelectListItem> GetOptions(){
+    private List<string> GetOptions(){
         List<string> strs = database.GetRecipeNames();
-
-        return strs.Select(x => new SelectListItem {
-                Text = x,
-                Value = x
-        }).ToList();
+        return strs;
     }
 
     public string GetIngredientsText(string recipe_name){
@@ -54,7 +53,7 @@ public class ViewModel : PageModel
     {
         database.connect("test.db");
         IsPost = true;
-        this.Recipes= GetOptions();
+        this.Recipes = GetOptions();
     }
 
     public void OnPost()
